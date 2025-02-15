@@ -1,6 +1,8 @@
 // pawsnap\src\hooks\useFetchImage.jsx
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+
+
 
 function useFetchImage(animalType) {
   const [image, setImage] = useState("");
@@ -12,18 +14,16 @@ function useFetchImage(animalType) {
   };
 
   const fetchImage = async () => {
+    console.log("Animal Type: ", animalType);
     const response = await fetch(API_URLS[animalType]);
     const data = await response.json();
     if (animalType === "FOX") {
       setImage(data.image);
-    } else if (animalType === "CAT" || animalType === "DOG") {
+    } else {
       setImage(data[0].url);
     }
+    console.log("Fetched Data: ", data);
   };
-
-  useEffect(() => {
-    fetchImage(); // Fetch an image when the hook is used
-  }, [animalType]); // Refetch when the animal type changes
 
   return [image, fetchImage];
 }
